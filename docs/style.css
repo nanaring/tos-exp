@@ -1,0 +1,71 @@
+html, body {
+  padding: 0;
+  margin: 0;
+  font: 12px/1.25 sans-serif;
+  color: #777;
+  background: #EEE;
+}
+
+.layout {
+  max-width: 960px;
+}
+
+h1 {
+  margin: 0;
+  padding: 4px;
+  text-align: center;
+  background: #DDD;
+  color: #000;
+}
+
+hr {
+  border: none;
+  border-bottom: #999 dashed 1px;
+  width: 98%;
+}
+
+input, select, option, button {
+  margin: 1px;
+  padding: 2px;
+  font-size: 20px;
+}
+
+input[type=number], .number {
+  text-align: right;
+}
+
+label {
+  display: inline-block;
+}
+
+input[type=button], button, .button, .primary_button {
+  display: inline-block;
+	white-space: nowrap;
+	text-decoration: none;
+  vertical-align: middle;
+  margin: 1px;
+  padding: 2px 8px;
+  border: rgba(0, 0, 0, 0.25) solid 1px;
+  border-radius: 8px;
+}
+
+.primary_button {
+  background: #99F;
+  color: #FFF;
+  font-weight: bold;
+}
+
+nav {
+  text-align: center;
+}
+
+#alert {
+  display: none;
+  margin: 4px 8px;
+  padding: 4px 8px;
+  border: rgba(0, 0, 0, 0.25) solid 1px;
+  border-radius: 8px;
+  background: #F99;
+  color: #FFF;
+  font-weight: bold;
+}

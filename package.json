@@ -1,0 +1,24 @@
+{
+  "name": "tos-exp",
+  "version": "0.0.0",
+  "description": "ToS Exp Simulator",
+  "main": "index.js",
+  "scripts": {
+	"start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nanaring/tos-exp.git"
+  },
+  "author": "",
+  "license": "GPL",
+  "bugs": {
+    "url": "https://github.com/nanaring/tos-exp/issues"
+  },
+  "homepage": "https://github.com/nanaring/tos-exp#readme",
+    "dependencies": {
+	        "express": "*"
+		  }
+
+}

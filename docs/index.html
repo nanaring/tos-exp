@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta encoding="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ToS EXP SIMULATOR</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="main.js"></script>
+  </head>
+  <body>
+    <div class="layout">
+      <h1>ToS EXP SIMULATOR</h1>
+      <hr>
+      <label>
+        キャラクターレベル:
+        <input type="number" id="cblv" value="" placeholder="1" min="1" max="280" step="1" style="width: 2.5em;">
+      </label>
+      <label>
+        <input type="number" id="cbpar" value="" placeholder="0.0" min="0.0" max="100" step="0.1" style="width: 3em;">%
+      </label>
+      <br>
+      <label>
+        クラス:
+        <select class="number" id="ccrank"></select>
+      </label>
+      <label>
+        レベル:
+        <select class="number" id="cclv"></select>
+      </label>
+      <label>
+        <input type="number" id="ccpar" value="" placeholder="0.0" min="0.0" max="100.0" step="0.1" style="width: 3em;">%
+      </label>
+      <hr>
+      EXPカード:
+      <div id="card_holder"></div>
+      <hr>
+      <nav>
+        <button class="primary_button" id="recalc_btn">&#8595; 結果を反映</button>
+      </nav>
+      <hr>
+      <div id="alert"></div>
+      <label>
+        キャラクターレベル:
+        <input class="number" id="rblv" readonly="readonly" size="3">
+      </label>
+      <label>
+        <input class="number" id="rbpar" readonly="readonly" size="4">%
+      </label>
+      <br>
+      <label>
+        次のレベルまで:
+        <input class="number" id="rbnext" readonly="readonly" size="10">
+      </label>
+      <label>
+        累計:
+        <input class="number" id="rbtotal" readonly="readonly" size="13">
+      </label>
+      <br>
+      <label>
+        クラス:
+        <input class="number" id="rcrank" readonly="readonly" size="3">
+      </label>
+      <label>
+        レベル:
+        <input class="number" id="rclv" readonly="readonly" size="2">
+      </label>
+      <label>
+        <input class="number" id="rcpar" readonly="readonly" size="4">%
+      </label>
+      <br>
+      <label>
+        次のレベルまで:
+        <input class="number" id="rcnext" readonly="readonly" size="10">
+      </label>
+      <label>
+        累計:
+        <input class="number" id="rctotal" readonly="readonly" size="13">
+      </label>
+      <hr>
+      <footer>
+        ※ たまに計算ミスとか誤差がある場合があります。自己責任でご利用ください。
+        <br>ToS EXP SIM Version 0.0
+      </footer>
+    </div>
+  </body>
+</html>
