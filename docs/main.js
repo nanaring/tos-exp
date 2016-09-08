@@ -167,8 +167,14 @@
     $('#rbnext').val(comma(stats.base.next));
     $('#rbtotal').val(comma(stats.base.total));
 
-    $('#rcrank').val('R'+(Math.floor(1 + stats.class.level / 15)));
-    $('#rclv').val(stats.class.level % 15);
+    var rcrank = Math.floor(1 + stats.class.level / 15);
+    var rclv = stats.class.level % 15;
+    if(rclv == 0){
+      rcrank -= 1;
+      rclv = 15;
+    }
+    $('#rcrank').val('R'+rcrank);
+    $('#rclv').val(rclv);
     $('#rcpar').val(stats.class.parcent);
     $('#rcnext').val(comma(stats.class.next));
     $('#rctotal').val(comma(stats.class.total));
