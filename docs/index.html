@@ -3,15 +3,16 @@
   <head>
     <meta encoding="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ToS EXP SIMULATOR</title>
+    <title>ToS EXP 計算機</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="main.js"></script>
   </head>
   <body>
     <div class="layout">
-      <h1>ToS EXP SIMULATOR</h1>
+      <h1>ToS EXP 計算機</h1>
       <hr>
+      <h2>現在のレベル</h2>
       <label>
         キャラクターレベル:
         <input type="number" id="cblv" value="" placeholder="1" min="1" max="280" step="1" style="width: 2.5em;">
@@ -35,11 +36,8 @@
       EXPカード:
       <div id="card_holder"></div>
       <hr>
-      <nav>
-        <button class="primary_button" id="recalc_btn">&#8595; 結果を反映</button>
-      </nav>
-      <hr>
       <div id="alert"></div>
+      <h2>計算結果</h2>
       <label>
         キャラクターレベル:
         <input class="number" id="rblv" readonly="readonly" size="3">
@@ -78,9 +76,22 @@
         <input class="number" id="rctotal" readonly="readonly" size="13">
       </label>
       <hr>
+      <h2>データの管理</h2>
+      <a class="primary_button" id="update_btn">URL更新</a>
+      <hr>
+      現在のコード:
+      <input type="text" id="saved_data" readonly="readonly" onclick="this.select();" size="10">
+      <hr>
+      <label>
+        コード読み込み:
+        <input type="text" id="load_data" size="10">
+      </label>
+      <a class="primary_button" id="load_btn">ロード</a>
+      <hr>
       <footer>
-        ※ たまに計算ミスとか誤差がある場合があります。自己責任でご利用ください。
-        <br>ToS EXP SIM Version 0.0
+        ※ 自己責任でご利用ください。<br>
+        ※ 計算ミスとか誤差がある場合があります。<br>
+        ToS EXP SIM Version 0.1
       </footer>
     </div>
   </body>
