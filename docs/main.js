@@ -240,7 +240,7 @@
     var r = [];
     s.unshift(s.length);
     s.forEach(function(n) {
-      if (n < 0x29) {
+      if (n < 0x20) {
         r.push(encodeTab[n]);
       } else if (n < 0x400) {
         var n0 = 0x20 + Math.floor(n/0x40), n1 = n%0x40;
