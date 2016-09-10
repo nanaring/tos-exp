@@ -1,2 +1,9 @@
-# tos-exp
-ToS Exp Simulator
+# ToS EXP CARD 計算機
+
+現在のレベルと使用するEXPカードの個数を入力すると結果の目安がわかります。
+
++ 自己責任でご利用ください。
++ 計算ミスや誤差がある場合があります。
++ サポートブラウザ: Safari/Chrome/Edgeの各最新版
+
+付属のnode.jsはローカル確認用で/docs/が本体です
