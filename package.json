@@ -4,7 +4,7 @@
   "description": "ToS Exp Simulator",
   "main": "index.js",
   "scripts": {
-	"start": "node index.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,8 +17,7 @@
     "url": "https://github.com/nanaring/tos-exp/issues"
   },
   "homepage": "https://github.com/nanaring/tos-exp#readme",
-    "dependencies": {
-	        "express": "*"
-		  }
-
+  "dependencies": {
+    "express": "*"
+  }
 }
