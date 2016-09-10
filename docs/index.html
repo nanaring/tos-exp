@@ -2,15 +2,28 @@
 <html>
   <head>
     <meta encoding="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ToS EXP 計算機</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@ArchNanaring">
+    <meta name="twitter:title" content="ToS EXP 計算機">
+    <meta name="twitter:description" content="ToS EXP CARD を計算します">
+    <meta name="twitter:image" content="https://nanaring.github.io/favicon.ico">
     <link rel="stylesheet" type="text/css" href="style.css">
-    <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+    <link rel="icon" type="image/png" href="favicon.png" sizes="64x64">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="main.js"></script>
   </head>
   <body>
     <div class="layout">
-      <h1>ToS EXP 計算機</h1>
+      <header>
+        <h1>ToS EXP 計算機</h1>
+      </header>
+      <hr>
+      <a class="primary_button" id="save_btn">Save</a>
+      <a class="primary_button" id="load_btn">Load</a>
+      <select id="save_slot"></select>
       <hr>
       <h2>現在のレベル</h2>
       <label>
@@ -23,11 +36,11 @@
       <br>
       <label>
         クラス:
-        <select class="number" id="ccrank"></select>
+        <select id="ccrank"></select>
       </label>
       <label>
         レベル:
-        <select class="number" id="cclv"></select>
+        <select id="cclv"></select>
       </label>
       <label>
         <input type="number" id="ccpar" value="" placeholder="0.0" min="0.0" max="100.0" step="0.1" style="width: 3em;">%
@@ -48,11 +61,11 @@
       <br>
       <label>
         次のレベルまで:
-        <input class="number" id="rbnext" readonly="readonly" size="10">
+        <input class="number smalltext" id="rbnext" readonly="readonly" size="10">
       </label>
       <label>
         累計:
-        <input class="number" id="rbtotal" readonly="readonly" size="13">
+        <input class="number smalltext" id="rbtotal" readonly="readonly" size="13">
       </label>
       <br>
       <label>
@@ -69,29 +82,40 @@
       <br>
       <label>
         次のレベルまで:
-        <input class="number" id="rcnext" readonly="readonly" size="10">
+        <input class="number smalltext" id="rcnext" readonly="readonly" size="10">
       </label>
       <label>
         累計:
-        <input class="number" id="rctotal" readonly="readonly" size="13">
+        <input class="number smalltext" id="rctotal" readonly="readonly" size="13">
       </label>
+      <hr>
+      <h2>使い方</h2>
+      現在のレベルと使用するEXPカードの個数を入力すると結果の目安がわかります。<br>
+      ※ 自己責任でご利用ください。<br>
+      ※ 計算ミスや誤差がある場合があります。<br>
+      サポートブラウザ: Safari/Chrome/Edgeの各最新版
       <hr>
       <h2>データの管理</h2>
-      <a class="primary_button" id="update_btn">URL更新</a>
-      <hr>
-      現在のコード:
-      <input type="text" id="saved_data" readonly="readonly" onclick="this.select();" size="10">
+      <a class="button" id="update_btn">URL生成</a>
+      <input type="text" class="smalltext" id="url" readonly="readonly" onclick="this.select();" size="20">
       <hr>
       <label>
-        コード読み込み:
-        <input type="text" id="load_data" size="10">
+        現在のコード:
+        <input type="text" class="smalltext" id="saved_data" readonly="readonly" onclick="this.select();" size="20">
       </label>
-      <a class="primary_button" id="load_btn">ロード</a>
+      <hr>
+      <label>
+        新しいコード:
+        <input type="text" class="smalltext" id="load_data" size="20">
+      </label>
+      <a class="primary_button" id="load_code_btn">読み込み</a>
+      <!-- <hr>
+      以下の文字列をコピーアンドペーストしてCookieのバックアップと復元ができます<br>
+      <textarea id="cookie_view" style="width: 90%" rows="5"></textarea><br>
+      <a class="primary_button" id="load_cookie_btn">復元</a> -->
       <hr>
       <footer>
-        ※ 自己責任でご利用ください。<br>
-        ※ 計算ミスとか誤差がある場合があります。<br>
-        ToS EXP SIM Version 0.1
+        ToS EXP CARD SIM Version 0.2
       </footer>
     </div>
   </body>

@@ -1,7 +1,7 @@
 html, body {
   padding: 0;
   margin: 0;
-  font: 12px/1.25 'Meiryo', sans-serif;
+  font: 12px/1.25 "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "游ゴシック", YuGothic, "メイリオ", Meiryo, sans-serif;
   color: #777;
   background: #EEE;
 }
@@ -10,17 +10,25 @@ html, body {
   max-width: 960px;
 }
 
-h1 {
+header {
   margin: 0 0 8px;
-  padding: 4px;
-  text-align: center;
-  background: #99F;
-  background: -webkit-gradient(linear, left top, right bottom, from(#CCC), color-stop(0.5, #99F), to(#CCC));
-  /*background: -webkit-gradient(linear, left top, right bottom, from(#99F), color-stop(0.5, #CCC), to(#99F));
-	background: -moz-linear-gradient(left top, #FFF, #99F, #FFF);*/
+  padding: 0px;
+  height: 44px;
+  background: #CCF;
+  background: -webkit-gradient(linear, left top, right bottom, from(#DDD), color-stop(0.5, #CCF), to(#DDD));
+	background: -moz-linear-gradient(left top, #DDD, #CCF, #DDD);
   border: none;
   border-bottom: rgba(0, 0, 0, 0.25) solid 1px;
-  color: #FFF;
+  color: #000;
+}
+
+h1 {
+  margin: 0;
+  padding: 8px;
+  font-size: 24px;
+  text-align: center;
+  vertical-align: middle;
+  height: 100%;
 }
 
 h2 {
@@ -40,6 +48,10 @@ input, select, option {
   font-size: 18px;
 }
 
+.smalltext {
+  font-size: 10px;
+}
+
 input[type=number], .number {
   text-align: right;
 }
@@ -48,22 +60,26 @@ label {
   display: inline-block;
 }
 
-input[type=button], button, .button, .primary_button {
+input[type='button'], button, .button, .primary_button {
   display: inline-block;
 	white-space: nowrap;
 	text-decoration: none;
   vertical-align: baseline;;
   margin: 2px;
-  padding: 2px 8px;
-  font-size: 18px;
+  padding: 4px 8px;
   border: rgba(0, 0, 0, 0.25) solid 1px;
   border-radius: 8px;
+  cursor: pointer;
+}
+
+.button {
+  background: #CCC;
+  color: #000;
 }
 
 .primary_button {
   background: #99F;
   color: #FFF;
-  font-weight: bold;
 }
 
 nav {
