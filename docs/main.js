@@ -20,7 +20,7 @@
     { base: 8442, class: 6500, min: 20 },
     { base: 22860, class: 17602, min: 40 },
     { base: 24571, class: 18919, min: 60 },
-    { base: 60312, class: 46440, min: 70 },
+    { base: 60312, class: 46440, min: 80 },
     { base: 142150, class: 109455, min: 100 },
     { base: 209334, class: 161187, min: 120 },
     { base: 237943, class: 183216, min: 150 },
