@@ -27,10 +27,13 @@
     { base: 541023, class: 416587, min: 180 },
     { base: 985061, class: 758496, min: 210 },
     { base: 2420348, class: 1863583, min: 250 },
-    { base: 3630357, class: 2795374, min: 275 },
-    { base: 13189741, class: 10156100, min: 210 },
-    { base: 31212626, class: 24033722, min: 250 },
+    // { base: 3630357, class: 2795374, min: 275 },
+    // { base: 13189741, class: 10156100, min: 210 },
+    // { base: 31212626, class: 24033722, min: 250 },
   ];
+
+  var MAX_CARD_AMOUNTS = 9999;
+  var cardValues = [null];
 
   $(document).ready(function(){
 
@@ -78,24 +81,33 @@
       cclv.appendChild(el);
     }
 
-    var cardHolder = document.getElementById('card_holder');
-    for(var i=1; i<=15; i++) {
-      var el = document.createElement('input');
-      el.setAttribute('id', 'card'+i);
-      el.setAttribute('class', 'card');
-      el.setAttribute('type', 'number');
-      el.setAttribute('value', '');
-      el.setAttribute('min', '0');
-      el.setAttribute('max', '9999');
-      el.setAttribute('step', '1');
-      el.setAttribute('placeHolder', 'Lv'+i);
-      el.setAttribute('style', 'width: 3em;');
-      cardHolder.appendChild(el);
+    var cardLevel = document.getElementById('card_level');
+    for(var i=1; i<expCards.length; i++) {
+      cardValues[i] = 0;
+      var el = document.createElement('option');
+      el.setAttribute('value', i);
+      el.appendChild(document.createTextNode('LV'+i));
+      cardLevel.appendChild(el);
     }
+    $('#card_amount').keypress(function(e) {
+      if (e.which == 13) {
+        $('#add_card_btn').click();
+      }
+    });
+    $('#add_card_btn').click(function() {
+      var cardLevel = $('#card_level').val()|0;
+      var amount = $('#card_amount').val()|0;
+      cardValues[cardLevel] = Math.max(Math.min(cardValues[cardLevel] + amount, MAX_CARD_AMOUNTS), 0);
+      $('#card_amount').val('');
+      // $('#card_amount').focus();
+      updateCardView();
+      recalc();
+    });
+    updateCardView();
 
     $('#cookie_view').val(cookies[COOKIE_MAIN_KEY]||'');
 
-    $('#cblv,#cbpar,#ccrank,#cclv,#ccpar,.card').change(recalc);
+    $('#cblv,#cbpar,#ccrank,#cclv,#ccpar').change(recalc);
 
     $('#update_btn').click(function(){
       try {
@@ -155,6 +167,9 @@
   function saveSlot(slot) {
     try {
       readCookie();
+      if (slot > 0) {
+        recalc();
+      }
       var savedata = (cookies[COOKIE_MAIN_KEY]||'').split('|');
       savedata[slot] = saveData();
       var saveString = savedata.join('|');
@@ -245,6 +260,7 @@
     for(var i=1; i<expCards.length; i++){
       var card = expCards[i];
       var amount = $('#card'+i).val() |0;
+      cardValues[i] = amount;
       if(amount){
         if(stats.base.level < card.min){
           errors.push('※ LV'+i+' EXP CARD は Lv'+card.min+' 以上で使用できます (不足: '+(card.min-stats.base.level)+')');
@@ -285,6 +301,104 @@
     saveSlot(0);
   }
 
+  function updateCardView() {
+    var CARD_VIEW_MODE = 0;
+
+    var cardHolder = document.getElementById('card_holder');
+    while (cardHolder.firstChild) {
+      cardHolder.removeChild(cardHolder.firstChild);
+    }
+    for(var i=1; i<=15; i++) {
+      var value = cardValues[i];
+      if (CARD_VIEW_MODE) {
+        var el = document.createElement('input');
+        el.setAttribute('id', 'card'+i);
+        el.setAttribute('class', 'card_amount');
+        el.setAttribute('type', 'number');
+        el.setAttribute('min', '0');
+        el.setAttribute('max', MAX_CARD_AMOUNTS);
+        el.setAttribute('step', '1');
+        el.setAttribute('placeHolder', 'Lv'+i);
+        el.setAttribute('style', 'width: 3em;');
+        if (value > 0) {
+          el.setAttribute('value', value);
+        } else {
+          el.setAttribute('value', '');
+        }
+        cardHolder.appendChild(el);
+      } else {
+        var exp_card = expCards[i];
+        if (value > 0) {
+          var div = document.createElement('div');
+          div.setAttribute('class', 'card');
+
+          var label = document.createElement('span');
+          label.setAttribute('class', 'card_label');
+          label.setAttribute('title', '経験値を+'+exp_card.base+'、クラス経験値を+'+exp_card.class+'アップさせてくれます。')
+          label.appendChild(document.createTextNode('LV'+i));
+          div.appendChild(label);
+
+          var decBtn = document.createElement('a');
+          decBtn.setAttribute('class', 'primary_button dec_card_btn');
+          decBtn.setAttribute('tag-index', i);
+          decBtn.setAttribute('href', 'javascript:void(0)');
+          decBtn.appendChild(document.createTextNode('-'));
+          div.appendChild(decBtn);
+
+          var el = document.createElement('input');
+          el.setAttribute('id', 'card'+i);
+          el.setAttribute('class', 'card_amount');
+          el.setAttribute('type', 'number');
+          el.setAttribute('min', '0');
+          el.setAttribute('max', MAX_CARD_AMOUNTS);
+          el.setAttribute('step', '1');
+          el.setAttribute('placeHolder', 'Lv'+i);
+          el.setAttribute('style', 'width: 4em;');
+          el.setAttribute('value', value);
+          div.appendChild(el);
+
+          var incBtn = document.createElement('a');
+          incBtn.setAttribute('class', 'primary_button inc_card_btn');
+          incBtn.setAttribute('tag-index', i);
+          incBtn.setAttribute('href', 'javascript:void(0)');
+          incBtn.appendChild(document.createTextNode('+'));
+          div.appendChild(incBtn);
+
+          var decBtn = document.createElement('a');
+          decBtn.setAttribute('class', 'destructive_button del_card_btn');
+          decBtn.setAttribute('tag-index', i);
+          decBtn.appendChild(document.createTextNode('-'));
+          div.appendChild(decBtn);
+
+          cardHolder.appendChild(div);
+
+        }
+      }
+    }
+    $('.del_card_btn').click(function() {
+      var tag = this.getAttribute('tag-index');
+      cardValues[tag] = 0;
+      updateCardView();
+      recalc();
+    });
+    $('.inc_card_btn').click(function() {
+      var tag = this.getAttribute('tag-index');
+      var obj = $('#card'+tag);
+      var value = (obj.val()|0)+1;
+      obj.val(Math.max(Math.min(value, MAX_CARD_AMOUNTS), 0));
+      recalc();
+    })
+    $('.dec_card_btn').click(function() {
+      var tag = this.getAttribute('tag-index');
+      var obj = $('#card'+tag);
+      var value = (obj.val()|0)-1;
+      obj.val(Math.max(Math.min(value, MAX_CARD_AMOUNTS), 0));
+      recalc();
+    })
+    $('.card_amount').change(recalc);
+
+  }
+
   function saveData() {
     var savedata = [
       Math.max(Math.min($('#cblv').val(), baseLvs.length-1), 1)-1,
@@ -293,9 +407,7 @@
       ($('#cclv').val()|0)-1,
       Math.max(Math.min($('#ccpar').val(), 100), 0)*10,
     ];
-    for(var i=1; i<expCards.length; i++) {
-      savedata.push($('#card'+i).val()|0);
-    }
+    Array.prototype.push.apply(savedata, cardValues.slice(1));
 
     var o = savedata.reverse();
     while(o.length > 0 && o[0] == 0){
@@ -320,16 +432,17 @@
       try {
         var q = decode(data);
         q.push(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+
         $('#cblv').val(q.shift()+1);
         $('#cbpar').val(q.shift()/10);
         $('#ccrank').val(q.shift()+1);
         $('#cclv').val(q.shift()+1);
         $('#ccpar').val(q.shift()/10);
-        for(var i=1; i<expCards.length; i++) {
-          var n = q.shift();
-          if (n > 0) {} else { n = '' }
-          $('#card'+i).val(n);
-        }
+
+        cardValues = q.splice(0, expCards.length-1);
+        cardValues.unshift(null);
+        updateCardView();
+
         recalc();
       } catch(e) {
         console.log(e);
@@ -402,6 +515,10 @@
       result = (c-0x20)*0x40 + encodeTab.indexOf(src.shift());
     }else if (c < 0x38) {
       result = (c-0x30)*0x1000 + encodeTab.indexOf(src.shift())*0x40;
+      result += encodeTab.indexOf(src.shift());
+    }else if (c == 0x38) {
+      result = encodeTab.indexOf(src.shift())*0x1000;
+      result += encodeTab.indexOf(src.shift()*0x40);
       result += encodeTab.indexOf(src.shift());
     } else {
       throw new Error('Unexpected value')
