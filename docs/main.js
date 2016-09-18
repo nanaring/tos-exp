@@ -9,6 +9,8 @@
 
   var self = this;
 
+  var BASE_LEVEL_LIMIT = 280;
+
   var N_MAX_COOKIE_SLOTS = 10;
   var COOKIE_MAIN_KEY = 'tosxpsave';
 
@@ -16,16 +18,16 @@
   var clsLvs = [0,58,209,386,578,780,993,1213,1440,1673,1913,2156,2405,2658,2915,0,2724,9795,18029,26976,36459,46379,56668,67281,78181,89342,100741,112360,124182,136196,0,16004,57532,105896,158451,214155,272418,332856,395193,459220,524776,591731,659976,729420,799985,0,57976,208412,383617,573997,775787,986852,1205790,1431606,1663550,1901032,2143579,2390800,2642365,2897993,0,245833,883722,1626630,2433890,3289531,4184497,5112853,6070368,7053866,8060850,9089312,10137584,11204288,12288216,0,535630,1925481,3544152,5303036,7167333,9117312,11140044,13226312,15369180,17563232,19804080,22088096,24412240,26773952,0,1647370,5921956,10900296,16309870,22043652,28040952,34262008,40678472,47269040,54016992,60908880,67933504,75081664,82345216,0];
   var expCards = [ null,
     { base: 500, class: 385, min: 1 },
-    { base: 2686, class: 2668, min: 5 },
-    { base: 8442, class: 6500, min: 20 },
-    { base: 22860, class: 17602, min: 40 },
-    { base: 24571, class: 18919, min: 60 },
-    { base: 60312, class: 46440, min: 80 },
-    { base: 142150, class: 109455, min: 100 },
-    { base: 209334, class: 161187, min: 120 },
-    { base: 237943, class: 183216, min: 150 },
-    { base: 541023, class: 416587, min: 180 },
-    { base: 985061, class: 758496, min: 210 },
+    { base: 2686, class: 2668, min: 5, prop: 15 },
+    { base: 8442, class: 6500, min: 20, prop: 40 },
+    { base: 22860, class: 17602, min: 40, prop: 60 },
+    { base: 24571, class: 18919, min: 60, prop: 80 },
+    { base: 60312, class: 46440, min: 80, prop: 100 },
+    { base: 142150, class: 109455, min: 100, prop: 120 },
+    { base: 209334, class: 161187, min: 120, prop: 150 },
+    { base: 237943, class: 183216, min: 150, prop: 180 },
+    { base: 541023, class: 416587, min: 180, prop: 200 },
+    { base: 985061, class: 758496, min: 210, prop: 220 },
     { base: 2420348, class: 1863583, min: 250 },
     // { base: 3630357, class: 2795374, min: 275 },
     // { base: 13189741, class: 10156100, min: 210 },
@@ -96,7 +98,7 @@
     });
     $('#add_card_btn').click(function() {
       var cardLevel = $('#card_level').val()|0;
-      var amount = $('#card_amount').val()|0;
+      var amount = Math.max($('#card_amount').val()|0, 1);
       cardValues[cardLevel] = Math.max(Math.min(cardValues[cardLevel] + amount, MAX_CARD_AMOUNTS), 0);
       $('#card_amount').val('');
       // $('#card_amount').focus();
@@ -109,6 +111,22 @@
 
     $('#cblv,#cbpar,#ccrank,#cclv,#ccpar').change(recalc);
 
+    $('#cblv').change(function(){
+      var cblv = Math.max($('#cblv').val()|0, 1);
+      var prop_card = 0;
+      for(var i=expCards.length-1; i>0; i--) {
+        var card = expCards[i];
+        var prop = card.prop || card.min;
+        if (prop <= cblv) {
+          prop_card = i;
+          break;
+        }
+      }
+      if ($('#card_level').val() < prop_card) {
+        $('#card_level').val(prop_card);
+      }
+    });
+
     $('#update_btn').click(function(){
       try {
         recalc();
@@ -119,7 +137,7 @@
         $('#url').val(url+'#!'+saveData());
       } catch(e) {
         console.log(e);
-        alert('URL生成に失敗しました');
+        alert('URL生成に失敗しました\n----\n'+e.message);
       }
     });
 
@@ -222,15 +240,16 @@
 
   function expToLevel(table, total) {
     var totals = table.totals;
-    for(var i=1; i<totals.length; i++){
+    var limit = (table == baseLvs) ? BASE_LEVEL_LIMIT : totals.length-1;
+    for(var i=1; i<limit; i++){
       if(totals[i] > total){
         var exp = total - totals[i-1];
         var next = table[i];
-        var parcent = Math.floor(1000 * exp / next + 0.5)/10;
+        var parcent = Math.min(Math.floor(1000 * exp / next + 0.5), 999)/10;
         return { level: i, parcent: parcent, next: next - exp, total: total, exp: exp };
       }
     }
-    var maxLv = totals.length-1;
+    var maxLv = limit;
     return { level: maxLv, parcent: 0, next: 0, total: totals[maxLv-1], exp: 0 };
   }
 
@@ -248,7 +267,7 @@
     var stats = {};
     var errors = [];
 
-    var cblv = Math.max(Math.min($('#cblv').val(), baseLvs.length-1), 1);
+    var cblv = Math.max(Math.min($('#cblv').val()|0, BASE_LEVEL_LIMIT), 1);
     var cbpar = Math.max(Math.min($('#cbpar').val(), 100), 0);
     stats.base = levelStat(baseLvs, cblv, cbpar);
 
@@ -339,7 +358,7 @@
           div.appendChild(label);
 
           var decBtn = document.createElement('a');
-          decBtn.setAttribute('class', 'primary_button dec_card_btn');
+          decBtn.setAttribute('class', 'button dec_card_btn');
           decBtn.setAttribute('tag-index', i);
           decBtn.setAttribute('href', 'javascript:void(0)');
           decBtn.appendChild(document.createTextNode('-'));
@@ -358,7 +377,7 @@
           div.appendChild(el);
 
           var incBtn = document.createElement('a');
-          incBtn.setAttribute('class', 'primary_button inc_card_btn');
+          incBtn.setAttribute('class', 'button inc_card_btn');
           incBtn.setAttribute('tag-index', i);
           incBtn.setAttribute('href', 'javascript:void(0)');
           incBtn.appendChild(document.createTextNode('+'));
@@ -367,7 +386,7 @@
           var decBtn = document.createElement('a');
           decBtn.setAttribute('class', 'destructive_button del_card_btn');
           decBtn.setAttribute('tag-index', i);
-          decBtn.appendChild(document.createTextNode('-'));
+          decBtn.appendChild(document.createTextNode('\u2715'));
           div.appendChild(decBtn);
 
           cardHolder.appendChild(div);
@@ -401,7 +420,7 @@
 
   function saveData() {
     var savedata = [
-      Math.max(Math.min($('#cblv').val(), baseLvs.length-1), 1)-1,
+      Math.max(Math.min($('#cblv').val(), BASE_LEVEL_LIMIT), 1)-1,
       Math.max(Math.min($('#cbpar').val(), 100), 0)*10,
       ($('#ccrank').val()|0)-1,
       ($('#cclv').val()|0)-1,
@@ -518,7 +537,7 @@
       result += encodeTab.indexOf(src.shift());
     }else if (c == 0x38) {
       result = encodeTab.indexOf(src.shift())*0x1000;
-      result += encodeTab.indexOf(src.shift()*0x40);
+      result += encodeTab.indexOf(src.shift())*0x40;
       result += encodeTab.indexOf(src.shift());
     } else {
       throw new Error('Unexpected value')

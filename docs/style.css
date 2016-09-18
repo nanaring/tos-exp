@@ -7,7 +7,7 @@ html, body {
 }
 
 .layout {
-  max-width: 960px;
+  max-width: 1024px;
 }
 
 header {
@@ -32,7 +32,7 @@ h1 {
 }
 
 h2 {
-  margin: 4px 0;
+  margin: 8px 0;
   padding: 0 1em;
   font-size: 1.2em;
 }
@@ -41,6 +41,16 @@ hr {
   border: none;
   border-bottom: #CCC dashed 1px;
   width: 98%;
+}
+
+.clear_all {
+  clear: both;
+}
+
+@media only screen and (min-width: 375px) {
+  article {
+    margin: 0 25px;
+  }
 }
 
 input, select, option {
