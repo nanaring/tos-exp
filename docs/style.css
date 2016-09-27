@@ -84,8 +84,13 @@ input[type='button'], button, .button, .primary_button, .destructive_button {
 }
 
 .button {
-  background: #CCC;
+  background: #FFF;
   color: #000;
+}
+
+.button:hover {
+  background: #EEE;
+  color: #00F;
 }
 
 .primary_button {
@@ -93,9 +98,17 @@ input[type='button'], button, .button, .primary_button, .destructive_button {
   color: #FFF;
 }
 
+.primary_button:hover {
+  background: #AAF;
+}
+
 .destructive_button {
   background: #F99;
   color: #FFF;
+}
+
+.destructive_button:hover {
+  background: #FAA;
 }
 
 .card {
